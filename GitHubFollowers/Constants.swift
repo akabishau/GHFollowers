@@ -7,6 +7,12 @@
 
 import UIKit
 
+enum Images {
+	static let ghLogo = UIImage(named: "gh-logo")
+	static let placeholder = UIImage(named: "avatar-placeholder")
+	static let emptyStateLogo = UIImage(named: "empty-state-logo")
+}
+
 
 enum ScreenSize {
 	static let width = UIScreen.main.bounds.size.width
@@ -14,6 +20,7 @@ enum ScreenSize {
 	static let maxLength = max(ScreenSize.width, ScreenSize.height)
 	static let minLength = min(ScreenSize.width, ScreenSize.height)
 }
+
 
 enum DeviceType {
 	static let idiom = UIDevice.current.userInterfaceIdiom

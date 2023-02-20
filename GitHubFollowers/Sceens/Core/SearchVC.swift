@@ -65,7 +65,7 @@ class SearchVC: UIViewController {
 		
 		let topConstraint: CGFloat = DeviceType.isiPhoneSE || DeviceType.isiPhone8Zoomed ? 20 : 80
 		
-		logoImageView.image = UIImage(named: "gh-logo") // refactor
+		logoImageView.image = Images.ghLogo
 		
 		NSLayoutConstraint.activate([
 			logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstraint),
