@@ -58,10 +58,9 @@
 		5B1FE81429A2983A0056F9D8 /* Sceens */ = {
 			isa = PBXGroup;
 			children = (
-				5B1FE81729A298520056F9D8 /* SearchVC.swift */,
-				5B1FE81529A2984A0056F9D8 /* FavoritesVC.swift */,
-				5B1FE82129A2ECAC0056F9D8 /* FollowerListVC.swift */,
-				5B1FE82A29A325390056F9D8 /* GFAlertVC.swift */,
+				5BEA9FD229A1D93500967704 /* MainTabBarController.swift */,
+				5B1FE82D29A327130056F9D8 /* Core */,
+				5B1FE82C29A326C50056F9D8 /* Other */,
 			);
 			path = Sceens;
 			sourceTree = "<group>";
@@ -93,6 +92,24 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		5B1FE82C29A326C50056F9D8 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				5B1FE82A29A325390056F9D8 /* GFAlertVC.swift */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		5B1FE82D29A327130056F9D8 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				5B1FE81729A298520056F9D8 /* SearchVC.swift */,
+				5B1FE82129A2ECAC0056F9D8 /* FollowerListVC.swift */,
+				5B1FE81529A2984A0056F9D8 /* FavoritesVC.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		5BEA9FC229A1D93500967704 = {
 			isa = PBXGroup;
 			children = (
@@ -114,7 +131,6 @@
 			children = (
 				5B1FE82329A31D5B0056F9D8 /* Extensions */,
 				5B1FE81E29A2D91A0056F9D8 /* Utilities */,
-				5BEA9FD229A1D93500967704 /* MainTabBarController.swift */,
 				5B1FE81429A2983A0056F9D8 /* Sceens */,
 				5B1FE81929A29E7E0056F9D8 /* Views */,
 				5BEA9FE229A1D9F500967704 /* Support */,
