@@ -26,4 +26,19 @@ class GFAvatarImageView: UIImageView {
 		clipsToBounds = true
 		image = placeholderImage
 	}
+	
+	
+	func downloadImage(from url: String) {
+		NetworkManager.shared.downloadImage(from: url) { [weak self] result in
+			guard let self = self else { return }
+			DispatchQueue.main.async {
+				switch result {
+					case .success(let image):
+						self.image = image
+					case .failure:
+						self.image = self.placeholderImage
+				}
+			}
+		}
+	}
 }

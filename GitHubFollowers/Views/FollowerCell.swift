@@ -22,8 +22,16 @@ class FollowerCell: UICollectionViewCell {
 	required init?(coder: NSCoder) { fatalError() }
 	
 	
+	override func prepareForReuse() {
+		super.prepareForReuse()
+		avatarImageView.image = nil
+		usernameLabel.text = ""
+	}
+	
+	
 	func set(follower: Follower) {
 		usernameLabel.text = follower.login
+		avatarImageView.downloadImage(from: follower.avatarUrl)
 	}
 	
 	
