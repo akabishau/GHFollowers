@@ -15,6 +15,14 @@ class FollowerListVC: UIViewController {
 	var page = 1
 	
 	
+	// enums are hashable by default
+	enum Section {
+		case main
+	}
+	var collectionView: UICollectionView!
+	var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
+		
+	
 	init(username: String) {
 		super.init(nibName: nil, bundle: nil)
 		self.username = username
@@ -27,7 +35,8 @@ class FollowerListVC: UIViewController {
 		super.viewDidLoad()
 		
 		view.backgroundColor = .systemBackground
-		
+		configureCollectionView()
+		configureDataSource()
 		getFollowers(username: username, page: page)
 	}
 	
@@ -46,6 +55,7 @@ class FollowerListVC: UIViewController {
 				case .success(let followers):
 					self.followers = followers
 					print(followers.count)
+					self.updateData(on: followers)
 				case .failure(let error):
 					print("failed: \(error.rawValue)")
 					self.presentGFAlertOnMainThread(title: "Bad Stuff Happend", message: error.rawValue, buttonTitle: "OK")
@@ -55,4 +65,38 @@ class FollowerListVC: UIViewController {
 			}
 		}
 	}
+	
+	
+	private func configureCollectionView() {
+		collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(view: view))
+		view.addSubview(collectionView)
+		collectionView.backgroundColor = .systemBackground
+		collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.reuseId)
+		collectionView.delegate = self
+		
+	}
+	
+	
+	// after calling this function collection view doesn't know about [follower]
+	private func configureDataSource() {
+		dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+			
+			let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowerCell.reuseId, for: indexPath) as! FollowerCell
+			cell.set(follower: itemIdentifier)
+			return cell
+		})
+	}
+	
+	
+	private func updateData(on followers: [Follower]) {
+		var snapshot = NSDiffableDataSourceSnapshot<Section, Follower>()
+		snapshot.appendSections([.main])
+		snapshot.appendItems(followers)
+		self.dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
+	}
+}
+
+
+extension FollowerListVC: UICollectionViewDelegate {
+	
 }
