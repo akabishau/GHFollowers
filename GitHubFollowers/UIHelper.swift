@@ -22,4 +22,13 @@ struct UIHelper {
 		flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth + 40)
 		return flowLayout
 	}
+	
+	
+	static func didUserScrollToEnd(of scrollView: UIScrollView) -> Bool {
+		let offsetY = scrollView.contentOffset.y
+		let contentHeight = scrollView.contentSize.height
+		let height = scrollView.frame.size.height
+		
+		return offsetY > (contentHeight - height)
+	}
 }

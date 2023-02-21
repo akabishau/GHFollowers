@@ -9,10 +9,21 @@ import UIKit
 
 class FollowerListVC: UIViewController {
 	
-	var followers: [Follower] = []
-	
 	var username: String!
+	
+	init(username: String) {
+		super.init(nibName: nil, bundle: nil)
+		self.username = username
+		title = username
+	}
+	
+	required init?(coder: NSCoder) { fatalError() }
+	
+	
+	// Pagination Logic
+	var followers: [Follower] = []
 	var page = 1
+	var hasMoreFollowers = true // flip to false when api returns less than 100 records
 	
 	
 	// enums are hashable by default
@@ -22,14 +33,6 @@ class FollowerListVC: UIViewController {
 	var collectionView: UICollectionView!
 	var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
 		
-	
-	init(username: String) {
-		super.init(nibName: nil, bundle: nil)
-		self.username = username
-		title = username
-	}
-	
-	required init?(coder: NSCoder) { fatalError() }
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -49,13 +52,15 @@ class FollowerListVC: UIViewController {
 	
 	private func getFollowers(username: String, page: Int) {
 		NetworkManager.shared.getFollowers(for: username, page: page) { [weak self] result in
+			
 			guard let self = self else { return }
 			
 			switch result {
 				case .success(let followers):
-					self.followers = followers
-					print(followers.count)
-					self.updateData(on: followers)
+					if followers.count < 100 { self.hasMoreFollowers = false }
+					self.followers.append(contentsOf: followers)
+					print(self.followers.count)
+					self.updateData(on: self.followers)
 				case .failure(let error):
 					print("failed: \(error.rawValue)")
 					self.presentGFAlertOnMainThread(title: "Bad Stuff Happend", message: error.rawValue, buttonTitle: "OK")
@@ -97,6 +102,17 @@ class FollowerListVC: UIViewController {
 }
 
 
+
+//MARK: - Scroll and Collection View Delegate
 extension FollowerListVC: UICollectionViewDelegate {
 	
+	// less calls than for scrollViewDidScroll
+	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+		
+		if UIHelper.didUserScrollToEnd(of: scrollView) {
+			guard hasMoreFollowers else { return }
+			page += 1
+			getFollowers(username: username, page: page)
+		}
+	}
 }
