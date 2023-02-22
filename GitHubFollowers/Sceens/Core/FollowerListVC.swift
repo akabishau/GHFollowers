@@ -61,7 +61,15 @@ class FollowerListVC: GFDataLoadingVC {
 				case .success(let followers):
 					if followers.count < 100 { self.hasMoreFollowers = false }
 					self.followers.append(contentsOf: followers)
-					print(self.followers.count)
+					
+					if self.followers.isEmpty {
+						let message = "This user doesn't have any followers. Go follow them 😀."
+						DispatchQueue.main.async {
+							print("here")
+							self.showEmptyStateView(with: message, in: self.view)
+						}
+					}
+					
 					self.updateData(on: self.followers)
 				case .failure(let error):
 					print("failed: \(error.rawValue)")
