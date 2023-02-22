@@ -159,7 +159,7 @@ extension FollowerListVC: UISearchResultsUpdating {
 
 
 
-//MARK: - Scroll View Delegate
+//MARK: - Scroll and Collection View Delegate
 extension FollowerListVC: UICollectionViewDelegate {
 	
 	// less calls than for scrollViewDidScroll
@@ -171,5 +171,17 @@ extension FollowerListVC: UICollectionViewDelegate {
 			getFollowers(username: username, page: page)
 			
 		}
+	}
+	
+	
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		print(indexPath)
+		
+		let activeArray = isSearching ? filteredFollowers : followers
+		let follower = activeArray[indexPath.item]
+		
+		let userVC = UserVC(username: follower.login)
+		let navigationController = UINavigationController(rootViewController: userVC)
+		present(navigationController, animated: true)
 	}
 }
