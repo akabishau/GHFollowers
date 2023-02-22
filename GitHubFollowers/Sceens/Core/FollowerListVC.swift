@@ -24,6 +24,10 @@ class FollowerListVC: GFDataLoadingVC {
 	var followers: [Follower] = []
 	var page = 1
 	var hasMoreFollowers = true // flip to false when api returns less than 100 records
+	var isLoadingFollowers = false // controls avoiding racing conditions when multiple network calls triggered by user scrolling though the list of followers
+	
+	var isSearching = false
+	var filteredFollowers: [Follower] = []
 	
 	
 	// enums are hashable by default
@@ -38,6 +42,7 @@ class FollowerListVC: GFDataLoadingVC {
 		super.viewDidLoad()
 		
 		view.backgroundColor = .systemBackground
+		configureSearchController()
 		configureCollectionView()
 		configureDataSource()
 		getFollowers(username: username, page: page)
@@ -53,6 +58,8 @@ class FollowerListVC: GFDataLoadingVC {
 	private func getFollowers(username: String, page: Int) {
 		
 		showLoadingView()
+		isLoadingFollowers = true
+		
 		NetworkManager.shared.getFollowers(for: username, page: page) { [weak self] result in
 			
 			guard let self = self else { return }
@@ -79,9 +86,12 @@ class FollowerListVC: GFDataLoadingVC {
 					}
 			}
 		}
+		
+		isLoadingFollowers = false
 	}
 	
 	
+	//MARK: - Collection View
 	private func configureCollectionView() {
 		collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(view: view))
 		view.addSubview(collectionView)
@@ -107,22 +117,59 @@ class FollowerListVC: GFDataLoadingVC {
 		var snapshot = NSDiffableDataSourceSnapshot<Section, Follower>()
 		snapshot.appendSections([.main])
 		snapshot.appendItems(followers)
-		self.dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
+		
+		// can be called from background but in this case calling from main for consistency
+		DispatchQueue.main.async {
+			self.dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
+		}
+	}
+}
+
+//MARK: - Search Controller
+extension FollowerListVC: UISearchResultsUpdating {
+	
+	//TODO: - is it okay to put it here?
+	private func configureSearchController() {
+		let searchController = UISearchController()
+		searchController.searchResultsUpdater = self // delegate
+		searchController.searchBar.placeholder = "Search for a username"
+		searchController.obscuresBackgroundDuringPresentation = false // removes default faint black overlay
+		navigationItem.searchController = searchController
+		navigationItem.hidesSearchBarWhenScrolling = false
+		
+	}
+	
+	// called when cancel button clicked, so no need in delegate method
+	func updateSearchResults(for searchController: UISearchController) {
+		
+		guard let filter = searchController.searchBar.text, !filter.isEmpty else {
+			filteredFollowers.removeAll()
+			updateData(on: followers)
+			isSearching = false
+			return
+		}
+		
+		isSearching = true
+		filteredFollowers = followers.filter({ follower in
+			follower.login.lowercased().contains(filter.lowercased())
+		})
+		updateData(on: filteredFollowers)
 	}
 }
 
 
 
-//MARK: - Scroll and Collection View Delegate
+//MARK: - Scroll View Delegate
 extension FollowerListVC: UICollectionViewDelegate {
 	
 	// less calls than for scrollViewDidScroll
 	func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 		
 		if UIHelper.didUserScrollToEnd(of: scrollView) {
-			guard hasMoreFollowers else { return }
+			guard hasMoreFollowers, !isLoadingFollowers, !isSearching else { return }
 			page += 1
 			getFollowers(username: username, page: page)
+			
 		}
 	}
 }
