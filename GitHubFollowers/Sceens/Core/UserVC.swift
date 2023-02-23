@@ -9,6 +9,8 @@ import UIKit
 
 final class UserVC: UIViewController {
 	
+	let headerView = UIView()
+	
 	let username: String
 	
 	init(username: String!) {
@@ -23,22 +25,8 @@ final class UserVC: UIViewController {
 		super.viewDidLoad()
 		
 		configureViewController()
+		layoutUI()
 		getUserInfo()
-	}
-	
-	
-	private func configureViewController() {
-		view.backgroundColor = .systemBackground
-		title = username
-		
-		let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
-		navigationItem.rightBarButtonItem = doneButton
-		
-	}
-	
-	
-	@objc private func dismissVC() {
-		dismiss(animated: true)
 	}
 	
 	
@@ -48,12 +36,61 @@ final class UserVC: UIViewController {
 			switch result {
 				case .success(let user):
 					DispatchQueue.main.async {
-						print(user)
-						// update ui elements
+						DispatchQueue.main.async {
+							self.configureUIElements(with: user)
+						}
 					}
 				case .failure(let error):
 					self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "OK")
 			}
 		}
+	}
+	
+	
+	private func configureUIElements(with user: User) {
+		self.add(childVC: UserHeaderVC(user: user), to: self.headerView)
+	}
+	
+	
+	
+	private func add(childVC: UIViewController, to containerView: UIView) {
+		addChild(childVC)
+		containerView.addSubview(childVC.view)
+		childVC.view.frame = containerView.bounds
+		childVC.didMove(toParent: self)
+	}
+	
+	
+	private func configureViewController() {
+		view.backgroundColor = .systemBackground
+		
+		let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
+		navigationItem.rightBarButtonItem = doneButton
+	}
+	
+	
+	@objc private func dismissVC() {
+		dismiss(animated: true)
+	}
+	
+	
+	private func layoutUI() {
+		
+		let padding: CGFloat = 20
+		let itemHeight: CGFloat = 140
+		
+		headerView.translatesAutoresizingMaskIntoConstraints = false
+		headerView.backgroundColor = .systemPink
+		
+		view.addSubview(headerView)
+		
+		
+		NSLayoutConstraint.activate([
+			headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+			headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+			headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+			headerView.heightAnchor.constraint(equalToConstant: 190)
+		])
+
 	}
 }
