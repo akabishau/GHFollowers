@@ -137,8 +137,7 @@
 				5B1FE81729A298520056F9D8 /* SearchVC.swift */,
 				5B1FE82129A2ECAC0056F9D8 /* FollowerListVC.swift */,
 				5B1FE81529A2984A0056F9D8 /* FavoritesVC.swift */,
-				5B1FE84029A6B9F50056F9D8 /* UserVC.swift */,
-				5B1FE84429A7AD5C0056F9D8 /* UserHeaderVC.swift */,
+				5B1FE84829A7CA0C0056F9D8 /* User */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -158,6 +157,15 @@
 				5B1FE84229A6BF950056F9D8 /* User.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		5B1FE84829A7CA0C0056F9D8 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				5B1FE84029A6B9F50056F9D8 /* UserVC.swift */,
+				5B1FE84429A7AD5C0056F9D8 /* UserHeaderVC.swift */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		5BEA9FC229A1D93500967704 = {

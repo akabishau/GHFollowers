@@ -10,6 +10,8 @@ import UIKit
 final class UserVC: UIViewController {
 	
 	let headerView = UIView()
+	let githubView = UIView()
+	let followersView = UIView()
 	
 	let username: String
 	
@@ -80,16 +82,33 @@ final class UserVC: UIViewController {
 		let itemHeight: CGFloat = 140
 		
 		headerView.translatesAutoresizingMaskIntoConstraints = false
-		headerView.backgroundColor = .systemPink
+		
+		githubView.translatesAutoresizingMaskIntoConstraints = false
+		githubView.backgroundColor = .systemBlue
+		
+		followersView.translatesAutoresizingMaskIntoConstraints = false
+		followersView.backgroundColor = .systemMint
 		
 		view.addSubview(headerView)
-		
+		view.addSubview(githubView)
+		view.addSubview(followersView)
 		
 		NSLayoutConstraint.activate([
 			headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-			headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
 			headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-			headerView.heightAnchor.constraint(equalToConstant: 190)
+			headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+			headerView.heightAnchor.constraint(equalToConstant: 190),
+			
+			
+			githubView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+			githubView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+			githubView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: padding),
+			githubView.heightAnchor.constraint(equalToConstant: itemHeight),
+			
+			followersView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+			followersView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+			followersView.topAnchor.constraint(equalTo: githubView.bottomAnchor, constant: padding),
+			followersView.heightAnchor.constraint(equalToConstant: itemHeight),
 		])
 
 	}
