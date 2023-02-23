@@ -23,6 +23,12 @@ class GFButton: UIButton {
 	required init?(coder: NSCoder) { fatalError() }
 	
 	
+	func set(backgroundColor: UIColor, title: String) {
+		self.backgroundColor = backgroundColor
+		setTitle(title, for: .normal)
+	}
+	
+	
 	private func configure() {
 		translatesAutoresizingMaskIntoConstraints = false
 		layer.cornerRadius = 10

@@ -50,7 +50,9 @@ final class UserVC: UIViewController {
 	
 	
 	private func configureUIElements(with user: User) {
-		self.add(childVC: UserHeaderVC(user: user), to: self.headerView)
+		add(childVC: UserHeaderVC(user: user), to: headerView)
+		add(childVC: RepoItemVC(user: user), to: githubView)
+		add(childVC: FollowerItemVC(user: user), to: followersView)
 	}
 	
 	
@@ -82,12 +84,8 @@ final class UserVC: UIViewController {
 		let itemHeight: CGFloat = 140
 		
 		headerView.translatesAutoresizingMaskIntoConstraints = false
-		
 		githubView.translatesAutoresizingMaskIntoConstraints = false
-		githubView.backgroundColor = .systemBlue
-		
 		followersView.translatesAutoresizingMaskIntoConstraints = false
-		followersView.backgroundColor = .systemMint
 		
 		view.addSubview(headerView)
 		view.addSubview(githubView)
