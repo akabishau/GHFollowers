@@ -1,5 +1,5 @@
 //
-//  InfoItemVC.swift
+//  UserItemInfoVC.swift
 //  GitHubFollowers
 //
 //  Created by Aleksey Kabishau on 2/23/23.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-class InfoItemVC: UIViewController {
+class UserItemInfoVC: UIViewController {
 	
 	private let stackView = UIStackView()
-	let leftItemView = InfoItemView()
-	let rightItemView = InfoItemView()
+	let leftItemView = UserItemInfoView()
+	let rightItemView = UserItemInfoView()
 	let actionButton = GFButton()
 	
 	let user: User

@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum InfoItemType {
+enum UserItemInfoType {
 	case repos
 	case gists
 	case followers
@@ -15,7 +15,7 @@ enum InfoItemType {
 }
 
 
-class InfoItemView: UIView {
+class UserItemInfoView: UIView {
 	
 	let symbolImageView = UIImageView()
 	let titleLabel = GFTitleLabel(textAlignment: .left, fontSize: 14)
@@ -30,8 +30,8 @@ class InfoItemView: UIView {
 	required init?(coder: NSCoder) { fatalError() }
 	
 	
-	func set(infoItemType: InfoItemType, withCount count: Int) {
-		switch infoItemType {
+	func set(infoType: UserItemInfoType, withCount count: Int) {
+		switch infoType {
 			case .repos:
 				symbolImageView.image = SFSymbols.repos
 				titleLabel.text = "Public Repos"

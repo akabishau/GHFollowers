@@ -8,7 +8,7 @@
 import UIKit
 
 
-class FollowerItemVC: InfoItemVC {
+class UserFollowerInfoVC: UserItemInfoVC {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -17,8 +17,8 @@ class FollowerItemVC: InfoItemVC {
 	
 	
 	private func configureItems() {
-		leftItemView.set(infoItemType: .followers, withCount: user.followers)
-		rightItemView.set(infoItemType: .followings, withCount: user.following)
+		leftItemView.set(infoType: .followers, withCount: user.followers)
+		rightItemView.set(infoType: .followings, withCount: user.following)
 		actionButton.set(backgroundColor: .systemGreen, title: "Get Followers")
 	}
 }

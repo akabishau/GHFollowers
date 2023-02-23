@@ -9,9 +9,9 @@ import UIKit
 
 final class UserVC: UIViewController {
 	
-	let headerView = UIView()
-	let githubView = UIView()
-	let followersView = UIView()
+	let headerInfoView = UIView()
+	let repoInfoView = UIView()
+	let followerInfoView = UIView()
 	
 	let username: String
 	
@@ -50,9 +50,9 @@ final class UserVC: UIViewController {
 	
 	
 	private func configureUIElements(with user: User) {
-		add(childVC: UserHeaderVC(user: user), to: headerView)
-		add(childVC: RepoItemVC(user: user), to: githubView)
-		add(childVC: FollowerItemVC(user: user), to: followersView)
+		add(childVC: UserHeadeInfoVC(user: user), to: headerInfoView)
+		add(childVC: UserRepoInfoVC(user: user), to: repoInfoView)
+		add(childVC: UserFollowerInfoVC(user: user), to: followerInfoView)
 	}
 	
 	
@@ -83,30 +83,30 @@ final class UserVC: UIViewController {
 		let padding: CGFloat = 20
 		let itemHeight: CGFloat = 140
 		
-		headerView.translatesAutoresizingMaskIntoConstraints = false
-		githubView.translatesAutoresizingMaskIntoConstraints = false
-		followersView.translatesAutoresizingMaskIntoConstraints = false
+		headerInfoView.translatesAutoresizingMaskIntoConstraints = false
+		repoInfoView.translatesAutoresizingMaskIntoConstraints = false
+		followerInfoView.translatesAutoresizingMaskIntoConstraints = false
 		
-		view.addSubview(headerView)
-		view.addSubview(githubView)
-		view.addSubview(followersView)
+		view.addSubview(headerInfoView)
+		view.addSubview(repoInfoView)
+		view.addSubview(followerInfoView)
 		
 		NSLayoutConstraint.activate([
-			headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-			headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-			headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-			headerView.heightAnchor.constraint(equalToConstant: 190),
+			headerInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+			headerInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+			headerInfoView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+			headerInfoView.heightAnchor.constraint(equalToConstant: 190),
 			
 			
-			githubView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-			githubView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-			githubView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: padding),
-			githubView.heightAnchor.constraint(equalToConstant: itemHeight),
+			repoInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+			repoInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+			repoInfoView.topAnchor.constraint(equalTo: headerInfoView.bottomAnchor, constant: padding),
+			repoInfoView.heightAnchor.constraint(equalToConstant: itemHeight),
 			
-			followersView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-			followersView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-			followersView.topAnchor.constraint(equalTo: githubView.bottomAnchor, constant: padding),
-			followersView.heightAnchor.constraint(equalToConstant: itemHeight),
+			followerInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+			followerInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+			followerInfoView.topAnchor.constraint(equalTo: repoInfoView.bottomAnchor, constant: padding),
+			followerInfoView.heightAnchor.constraint(equalToConstant: itemHeight),
 		])
 
 	}

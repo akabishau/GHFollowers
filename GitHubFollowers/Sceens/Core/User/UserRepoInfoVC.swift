@@ -1,5 +1,5 @@
 //
-//  RepoItemVC.swift
+//  UserRepoInfoVC.swift
 //  GitHubFollowers
 //
 //  Created by Aleksey Kabishau on 2/23/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RepoItemVC: InfoItemVC {
+class UserRepoInfoVC: UserItemInfoVC {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -16,8 +16,8 @@ class RepoItemVC: InfoItemVC {
 	
 	
 	private func configureItems() {
-		leftItemView.set(infoItemType: .repos, withCount: user.publicRepos)
-		rightItemView.set(infoItemType: .gists, withCount: user.publicGists)
+		leftItemView.set(infoType: .repos, withCount: user.publicRepos)
+		rightItemView.set(infoType: .gists, withCount: user.publicGists)
 		actionButton.set(backgroundColor: .systemPurple, title: "GitHub Profile")
 	}
 }
