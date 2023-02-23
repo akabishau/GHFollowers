@@ -12,6 +12,7 @@ final class UserVC: UIViewController {
 	let headerInfoView = UIView()
 	let repoInfoView = UIView()
 	let followerInfoView = UIView()
+	let dateLabel = GFBodyLabel(textAlignment: .center)
 	
 	let username: String
 	
@@ -53,6 +54,7 @@ final class UserVC: UIViewController {
 		add(childVC: UserHeadeInfoVC(user: user), to: headerInfoView)
 		add(childVC: UserRepoInfoVC(user: user), to: repoInfoView)
 		add(childVC: UserFollowerInfoVC(user: user), to: followerInfoView)
+		dateLabel.text = "GitHub since \(user.createdAt.convertToMonthYearFormat())"
 	}
 	
 	
@@ -90,6 +92,7 @@ final class UserVC: UIViewController {
 		view.addSubview(headerInfoView)
 		view.addSubview(repoInfoView)
 		view.addSubview(followerInfoView)
+		view.addSubview(dateLabel)
 		
 		NSLayoutConstraint.activate([
 			headerInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
@@ -107,6 +110,11 @@ final class UserVC: UIViewController {
 			followerInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
 			followerInfoView.topAnchor.constraint(equalTo: repoInfoView.bottomAnchor, constant: padding),
 			followerInfoView.heightAnchor.constraint(equalToConstant: itemHeight),
+			
+			dateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
+			dateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+			dateLabel.topAnchor.constraint(equalTo: followerInfoView.bottomAnchor, constant: padding),
+			dateLabel.heightAnchor.constraint(equalToConstant: 40),
 		])
 
 	}
