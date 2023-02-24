@@ -51,9 +51,17 @@ final class UserVC: UIViewController {
 	
 	
 	private func configureUIElements(with user: User) {
+		
 		add(childVC: UserHeadeInfoVC(user: user), to: headerInfoView)
-		add(childVC: UserRepoInfoVC(user: user), to: repoInfoView)
-		add(childVC: UserFollowerInfoVC(user: user), to: followerInfoView)
+		
+		// including delegate into the init for one child vc - clarity on call side, not much on class definition
+		add(childVC: UserRepoInfoVC(user: user, delegate: self), to: repoInfoView)
+		
+		// more standard way to set delegate
+		let userFollowersInfoVC = UserFollowerInfoVC(user: user)
+		userFollowersInfoVC.delegate = self
+		add(childVC: userFollowersInfoVC, to: followerInfoView)
+		
 		dateLabel.text = "GitHub since \(user.createdAt.convertToMonthYearFormat())"
 	}
 	
@@ -117,5 +125,30 @@ final class UserVC: UIViewController {
 			dateLabel.heightAnchor.constraint(equalToConstant: 40),
 		])
 
+	}
+}
+
+
+extension UserVC: UserRepoInfoVCDelegate {
+	func didTapGitHubProfile(for user: User) {
+		guard let url = URL(string: user.htmlUrl) else {
+			presentGFAlertOnMainThread(title: "Invalid URL", message: "The url attached to this user is invalid.", buttonTitle: "OK")
+			return
+		}
+		
+		presentSafariVC(with: url)
+	}
+}
+
+
+extension UserVC: UserFollowerInfoVCDelegate {
+	
+	func didTappGetFollowers(for user: User) {
+		guard user.followers != 0 else {
+			presentGFAlertOnMainThread(title: "No Followers", message: "This user has no followers. What a shame 😞.", buttonTitle: "So sad")
+			return
+		}
+		
+		dismissVC()
 	}
 }

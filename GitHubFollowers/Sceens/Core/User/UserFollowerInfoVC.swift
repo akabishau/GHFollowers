@@ -7,12 +7,25 @@
 
 import UIKit
 
+protocol UserFollowerInfoVCDelegate: AnyObject {
+	func didTappGetFollowers(for user: User)
+}
+
 
 class UserFollowerInfoVC: UserItemInfoVC {
+	
+	weak var delegate: UserFollowerInfoVCDelegate?
+	
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		configureItems()
+	}
+	
+	
+	override func actionButtonTapped() {
+		print(#function)
+		delegate?.didTappGetFollowers(for: user)
 	}
 	
 	
