@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol UserVCDelegate: AnyObject {
+	func didRequestFollowers(for username: String)
+}
+
 final class UserVC: UIViewController {
 	
 	let headerInfoView = UIView()
@@ -15,6 +19,7 @@ final class UserVC: UIViewController {
 	let dateLabel = GFBodyLabel(textAlignment: .center)
 	
 	let username: String
+	weak var delegate: UserVCDelegate?
 	
 	init(username: String!) {
 		self.username = username
@@ -148,7 +153,7 @@ extension UserVC: UserFollowerInfoVCDelegate {
 			presentGFAlertOnMainThread(title: "No Followers", message: "This user has no followers. What a shame 😞.", buttonTitle: "So sad")
 			return
 		}
-		
+		delegate?.didRequestFollowers(for: user.login)
 		dismissVC()
 	}
 }

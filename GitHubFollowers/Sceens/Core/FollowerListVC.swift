@@ -181,7 +181,22 @@ extension FollowerListVC: UICollectionViewDelegate {
 		let follower = activeArray[indexPath.item]
 		
 		let userVC = UserVC(username: follower.login)
+		userVC.delegate = self
 		let navigationController = UINavigationController(rootViewController: userVC)
 		present(navigationController, animated: true)
+	}
+}
+
+
+extension FollowerListVC: UserVCDelegate {
+	func didRequestFollowers(for username: String) {
+		print(#function)
+		self.username = username
+		title = username
+		followers.removeAll()
+		filteredFollowers.removeAll()
+		page = 1
+		collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+		getFollowers(username: username, page: page)
 	}
 }
