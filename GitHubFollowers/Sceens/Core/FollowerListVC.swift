@@ -41,7 +41,7 @@ class FollowerListVC: GFDataLoadingVC {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		view.backgroundColor = .systemBackground
+		configureViewController()
 		configureSearchController()
 		configureCollectionView()
 		configureDataSource()
@@ -49,9 +49,18 @@ class FollowerListVC: GFDataLoadingVC {
 	}
 	
 	
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
+	private func configureViewController() {
 		navigationController?.setNavigationBarHidden(false, animated: true)
+		view.backgroundColor = .systemBackground
+		navigationController?.navigationBar.prefersLargeTitles = true
+		
+		let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+		navigationItem.rightBarButtonItem = addButton
+	}
+	
+	
+	@objc private func addButtonTapped() {
+		print(#function)
 	}
 	
 	
