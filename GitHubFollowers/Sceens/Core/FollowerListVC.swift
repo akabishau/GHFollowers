@@ -60,7 +60,32 @@ class FollowerListVC: GFDataLoadingVC {
 	
 	
 	@objc private func addButtonTapped() {
-		print(#function)
+		self.showLoadingView()
+		NetworkManager.shared.getUserInfo(for: username) { [weak self] result in
+			guard let self = self else { return }
+			self.dismissLoadingView()
+			
+			switch result {
+				case .success(let user):
+					self.addUserToFavorites(user: user)
+				case .failure(let error):
+					self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "OK")
+			}
+		}
+	}
+	
+	
+	private func addUserToFavorites(user: User) {
+		let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+		
+		PersistenceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
+			guard let self = self else { return }
+			if let error = error {
+				self.presentGFAlertOnMainThread(title: "Something went wron", message: error.rawValue, buttonTitle: "OK")
+			} else {
+				self.presentGFAlertOnMainThread(title: "Success!", message: "You have successfully favorited this user 🎉", buttonTitle: "Hooray!")
+			}
+		}
 	}
 	
 	
