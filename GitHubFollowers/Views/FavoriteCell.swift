@@ -9,7 +9,7 @@ import UIKit
 
 class FavoriteCell: UITableViewCell {
 	
-	static let reuseID = "FavoriteCell"
+	static let reuseID = String(describing: FavoriteCell.self)
 	
 	let avatarImageView = GFAvatarImageView(frame: .zero)
 	let userNameLabel = GFTitleLabel(textAlignment: .left, fontSize: 26)

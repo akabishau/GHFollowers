@@ -45,6 +45,8 @@ class GFDataLoadingVC: UIViewController {
 	}
 	
 	
+	
+	//TODO: - Using this logic multiple ES View can be created (ex. favorites screen: add/remove/add/remove) - need to have a logic for showing existing view or removing it from super view
 	func showEmptyStateView(with message: String, in view: UIView) {
 		let emptyStateView = GFEmptyStateView(message: message)
 		emptyStateView.frame = view.bounds
